@@ -1,5 +1,7 @@
-let canvas = document.getElementById("canvas");
-let ctx = canvas.getContext("2d");
+/* global alert */
+/* global requestAnimationFrame */
+let canvas = document.getElementById('canvas');
+let ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
@@ -10,12 +12,12 @@ let center = {
     x: canvas.width / 2 - 20,
     y: canvas.height / 2 - 20,
     radius: 20,
-    color: "#FF0000"
+    color: '#FF0000'
 };
 
 let letter = {
-    font: "20px Arial",
-    color: "#0095DD",
+    font: '20px Arial',
+    color: '#0095DD',
     size: 30,
     highestSpeed: 1.6,
     lowestSpeed: 0.6,
@@ -35,8 +37,8 @@ let particle = {
 };
 
 let label = {
-    font: "24px Arial",
-    color: "#0095DD",
+    font: '24px Arial',
+    color: '#0095DD',
     margin: 20
 };
 
@@ -44,20 +46,24 @@ let letters = [];
 let particles = [];
 
 draw();
-document.addEventListener("keydown", keyDownHandler);
-window.addEventListener("resize", resizeHandler);
+document.addEventListener('keydown', keyDownHandler);
+window.addEventListener('resize', resizeHandler);
 
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawCircle(center);
+    ctx.font = letter.font;
+    ctx.fillStyle = letter.color;
     for (let l of letters) {
-        drawLabel(letter.font, letter.color, String.fromCharCode(l.code), l.x, l.y);
+        drawLabel(String.fromCharCode(l.code), l.x, l.y);
     }
     for (let p of particles) {
         drawCircle(p);
     }
-    drawLabel(label.font, label.color, "Score: " + score, 10, label.margin);
-    drawLabel(label.font, label.color, "Lives: " + lives, canvas.width - 110, label.margin);
+    ctx.font = label.font;
+    ctx.fillStyle = label.color;
+    drawLabel('Score: ' + score, 10, label.margin);
+    drawLabel('Lives: ' + lives, canvas.width - 110, label.margin);
     processParticles();
     createLetters();
     removeLetters();
@@ -72,9 +78,7 @@ function drawCircle(c) {
     ctx.closePath();
 }
 
-function drawLabel(font, color, text, x, y) {
-    ctx.font = font;
-    ctx.fillStyle = color;
+function drawLabel(text, x, y) {
     ctx.fillText(text, x, y);
 }
 
@@ -112,10 +116,10 @@ function removeLetters() {
     for (let l of letters) {
         if (intersects(l.x, l.y, letter.size, letter.size, center.x, center.y, center.radius, center.radius)) {
             if (--lives === 0) {
-                alert("GAME OVER!");
+                alert('GAME OVER!');
                 document.location.reload();
             } else {
-                alert("START AGAIN!");
+                alert('START AGAIN!');
                 letters = [];
                 particles = [];
             }
@@ -144,9 +148,9 @@ function type(i, l) {
             x: l.x,
             y: l.y,
             radius: particle.lowestRadius + Math.random() * (particle.highestRadius - particle.lowestRadius),
-            color: "rgba(" + c[0] + ", " + c[1] + ", " + c[2] + ", " + particle.alpha + ")",
+            color: 'rgba(' + c[0] + ', ' + c[1] + ', ' + c[2] + ', ' + particle.alpha + ')',
             speedX: particle.lowestSpeedX + Math.random() * (particle.highestSpeedX - particle.lowestSpeedX),
-            speedY: particle.lowestSpeedY + Math.random() * (particle.highestSpeedY - particle.lowestSpeedY),
+            speedY: particle.lowestSpeedY + Math.random() * (particle.highestSpeedY - particle.lowestSpeedY)
         });
     }
 }
