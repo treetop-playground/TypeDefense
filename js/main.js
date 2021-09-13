@@ -11,7 +11,7 @@ const center = {
 };
 
 const letter = {
-    font: '25px Monps[ace',
+    font: '25px Monospace',
     color: '#0095DD',
     width: 15,
     height: 20,
